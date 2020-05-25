@@ -35,9 +35,7 @@ class MovieAdapter(private val moviesList : List<Movie>) :
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie: Movie = moviesList[position]
         holder.movieTitle.text = movie.title
-        Picasso.get()
-            .load(movie.poster_path)
-            .into(holder.movieImage, object : Callback {
+        Picasso.get().load("http://image.tmdb.org/t/p/w500${movie.poster_path}").into(holder.movieImage, object : Callback {
                 override fun onSuccess() {
                     Log.d(TAG, "success")
                 }
@@ -46,6 +44,7 @@ class MovieAdapter(private val moviesList : List<Movie>) :
                     Log.d(TAG, "error")
                 }
             })
+
 
     }
 
