@@ -22,12 +22,16 @@ import kotlinx.android.synthetic.main.recycler_item.view.*
 
             val movieImage: ImageView = itemView.imageView
             val movieTitle: TextView = itemView.textView
+            val movieRate: TextView = itemView.movie_rate
+
 
             init {
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, MovieDetailsActivity::class.java)
                     intent.putExtra("MOVIE_TITLE", moviesList[adapterPosition].title)
                     intent.putExtra("MOVIE_IMAGE","http://image.tmdb.org/t/p/w500${moviesList[adapterPosition].poster_path}")
+                    intent.putExtra("MOVIE_OVER_VIEW",moviesList[adapterPosition].overview)
+                    intent.putExtra("MOVIE_RATE",moviesList[adapterPosition].vote_average.toString())
                     itemView.context.startActivity(intent)
 
                 }
@@ -48,7 +52,7 @@ import kotlinx.android.synthetic.main.recycler_item.view.*
         override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
             val movie: Movie = moviesList[position]
             holder.movieTitle.text = movie.title
-            Picasso.get().load("http://image.tmdb.org/t/p/w500${movie.poster_path}")
+            Picasso.get().load("http://image.tmdb.org/t/p/original${movie.poster_path}")
                 .into(holder.movieImage, object : Callback {
                     override fun onSuccess() {
                         Log.d(TAG, "success")
@@ -58,6 +62,7 @@ import kotlinx.android.synthetic.main.recycler_item.view.*
                         Log.d(TAG, "error")
                     }
                 })
+            holder.movieRate.text = movie.vote_average.toString()
 
 
         }

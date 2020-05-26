@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         val apiInterface : ApiInterface = MovieClient.getRetrofit().create(ApiInterface::class.java)
 
-        apiInterface.getMovies("eb1523f9e5287ce93da5dcfda24bcbc7").enqueue(object : Callback<MovieResponse>{
+        apiInterface.getMovies("eb1523f9e5287ce93da5dcfda24bcbc7","popularity.desc").enqueue(object : Callback<MovieResponse>{
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
                 Log.e("this is On Failure", t.message.toString())
             }
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun populateMoviesRecycler(movieList : List<Movie>){
 
-        recycler_view.layoutManager = GridLayoutManager(this,3)
+        recycler_view.layoutManager = GridLayoutManager(this,2)
 
         recycler_view.adapter = MovieAdapter(movieList)
 
