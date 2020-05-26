@@ -1,5 +1,6 @@
 package com.example.moviesapp.ui
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +18,16 @@ class MovieAdapter(private val moviesList : List<Movie>) :
 
 
 
-    class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val movieImage : ImageView = itemView.imageView
         val movieTitle : TextView = itemView.textView
+        init {
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context,MovieDetailsActivity::class.java)
+                intent.putExtra("MOVIE_TITLE",moviesList[adapterPosition].title)
+                intent.putExtra("MOVIE_IMAGE", moviesList[adapterPosition].poster_path)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
