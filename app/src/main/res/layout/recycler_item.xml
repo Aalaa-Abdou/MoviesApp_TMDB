@@ -31,7 +31,7 @@
         tools:text="Cast away"
         android:textColor="#FFFFFF"
         android:requiresFadingEdge="horizontal"
-        android:fadingEdgeLength="300dp"
+        android:fadingEdgeLength="200dp"
         android:ellipsize="none"
         android:singleLine="true"
         android:layout_marginTop="3dp"/>

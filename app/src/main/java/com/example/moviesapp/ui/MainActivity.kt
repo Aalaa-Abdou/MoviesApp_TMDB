@@ -21,7 +21,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.zip.Inflater
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),View.OnClickListener {
 
     var sortBy: String = "popularity.desc"
     lateinit var apiInterface: ApiInterface
@@ -32,37 +32,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        registerForContextMenu(sort_by)
 
         apiInterface = MovieClient.getRetrofit().create(ApiInterface::class.java)
 
         showingData(sortBy)
 
+        popular.setOnClickListener(this)
+        latest.setOnClickListener(this)
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.sorting_menu,menu)
-        return true
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        return when (item.itemId){
-            R.id.option_1 -> {sortBy = "popularity.desc"
-                showingData(sortBy)
-                true
-            }
-            R.id.option_2 -> {sortBy = "release_date.desc"
-                showingData(sortBy)
-                true
-            }
-            else -> {sortBy = "popularity.desc"
-                true
-            }
-        }
-
-    }
 
     private fun populateMoviesRecycler(movieList : List<Movie>){
 
@@ -85,5 +66,20 @@ class MainActivity : AppCompatActivity() {
                     Log.e("error","can't bind data")}
             }
         })
+    }
+
+    override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.popular -> {
+                sortBy="popularity.desc"
+                showingData(sortBy)
+            }
+            R.id.latest -> {
+                sortBy="release_date.desc"
+                showingData(sortBy)
+
+            }
+
+        }
     }
 }

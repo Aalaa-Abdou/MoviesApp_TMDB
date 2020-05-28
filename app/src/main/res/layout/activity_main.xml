@@ -7,20 +7,34 @@
     tools:context=".ui.MainActivity"
     android:background="#17181D">
 
-    <TextView
-        android:id="@+id/sort_by"
+    <Button
+        android:id="@+id/popular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="sort by"
-        android:drawableLeft="@drawable/ic_sortby"
-        android:drawablePadding="5dp"
-        android:gravity="center"
+        android:text="Popular"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toEndOf="@id/latest"
+        android:textColor="#C1BDBD"
         android:layout_marginTop="5dp"
-        android:textSize="40sp"
-        android:clickable="true"/>
+        android:textSize="24sp"
+        android:clickable="true"
+        android:textAllCaps="false"
+        style="@style/Widget.AppCompat.Button.Borderless"/>
+    <Button
+        android:id="@+id/latest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Latest"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/popular"
+        app:layout_constraintTop_toTopOf="@id/popular"
+        app:layout_constraintEnd_toEndOf="@id/popular"
+        android:textSize="24sp"
+        android:textColor="#C1BDBD"
+        android:clickable="true"
+        android:textAllCaps="false"
+        style="@style/Widget.AppCompat.Button.Borderless"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -29,7 +43,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sort_by"
+        app:layout_constraintTop_toBottomOf="@id/popular"
         android:layout_marginTop="90dp"
         tools:listitem="@layout/recycler_item"/>
 
