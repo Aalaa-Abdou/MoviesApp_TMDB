@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.recycler_item.view.*
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, MovieDetailsActivity::class.java)
                     intent.putExtra("MOVIE_TITLE", moviesList[adapterPosition].title)
-                    intent.putExtra("MOVIE_IMAGE","http://image.tmdb.org/t/p/w500${moviesList[adapterPosition].poster_path}")
+                    intent.putExtra("MOVIE_IMAGE","http://image.tmdb.org/t/p/original${moviesList[adapterPosition].poster_path}")
                     intent.putExtra("MOVIE_OVER_VIEW",moviesList[adapterPosition].overview)
                     intent.putExtra("MOVIE_RATE",moviesList[adapterPosition].vote_average.toString())
                     itemView.context.startActivity(intent)
