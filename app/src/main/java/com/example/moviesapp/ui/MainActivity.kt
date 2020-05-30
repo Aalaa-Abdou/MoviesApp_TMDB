@@ -2,24 +2,13 @@ package com.example.moviesapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.ContextMenu
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviesapp.R
 import com.example.moviesapp.data.ApiInterface
-import com.example.moviesapp.data.MovieClient
+import com.example.moviesapp.data.MovieRepository
 import com.example.moviesapp.pojo.Movie
-import com.example.moviesapp.pojo.MovieResponse
 import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.util.zip.Inflater
 
 class MainActivity : AppCompatActivity(),View.OnClickListener {
 
@@ -32,10 +21,16 @@ class MainActivity : AppCompatActivity(),View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        MovieRepository.showingData(object :
+            MoviesCallBack {
+            override fun onMovieLoaded(Movies: List<Movie>) {
+                populateMoviesRecycler(Movies)
+            }
+        }, sortBy)
 
-        apiInterface = MovieClient.getRetrofit().create(ApiInterface::class.java)
 
-        showingData(sortBy)
+
+
 
         popular.setOnClickListener(this)
         latest.setOnClickListener(this)
@@ -53,31 +48,15 @@ class MainActivity : AppCompatActivity(),View.OnClickListener {
 
     }
 
-    private fun showingData(sortBy:String){
-        apiInterface.getMovies("eb1523f9e5287ce93da5dcfda24bcbc7",sortBy).enqueue(object : Callback<MovieResponse>{
-            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                Log.e("this is On Failure", t.message.toString())
-            }
 
-            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                if (response.isSuccessful) {
-                    populateMoviesRecycler(response.body()!!.results)
-                }else{
-                    Log.e("error","can't bind data")}
-            }
-        })
-    }
 
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.popular -> {
                 sortBy="popularity.desc"
-                showingData(sortBy)
             }
             R.id.latest -> {
                 sortBy="release_date.desc"
-                showingData(sortBy)
-
             }
 
         }
