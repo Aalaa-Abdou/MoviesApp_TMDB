@@ -12,8 +12,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(),View.OnClickListener {
 
-    var sortBy: String = "popularity.desc"
-    lateinit var apiInterface: ApiInterface
+    private var sortBy: String = "popularity.desc"
 
 
 
