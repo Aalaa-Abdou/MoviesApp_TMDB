@@ -4,9 +4,9 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.moviesapp.R
-import com.example.moviesapp.data.ApiInterface
 import com.example.moviesapp.data.MovieRepository
 import com.example.moviesapp.pojo.Movie
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,22 +20,17 @@ class MainActivity : AppCompatActivity(),View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        MovieRepository.movies.observe(this, Observer {
+            populateMoviesRecycler(it)
+        })
         callingApi(sortBy)
 
         popular.setOnClickListener(this)
         latest.setOnClickListener(this)
     }
-
     fun callingApi(sortBy: String){
-        MovieRepository.showingData(object :
-            MoviesCallBack {
-            override fun onMovieLoaded(Movies: List<Movie>) {
-                populateMoviesRecycler(Movies)
-            }
-        }, sortBy)
+        MovieRepository.showingData(sortBy)
     }
-
     private fun populateMoviesRecycler(movieList : List<Movie>){
 
         recycler_view.layoutManager = GridLayoutManager(this,2)
@@ -43,9 +38,6 @@ class MainActivity : AppCompatActivity(),View.OnClickListener {
         recycler_view.adapter = MovieAdapter(movieList)
 
     }
-
-
-
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.popular -> {

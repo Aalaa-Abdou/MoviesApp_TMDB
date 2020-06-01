@@ -1,6 +1,6 @@
 package com.example.moviesapp.ui
-import android.content.Intent
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +14,7 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recycler_item.view.*
 
-    class MovieAdapter(private val moviesList : List<Movie>) :
+class MovieAdapter(private val moviesList : List<Movie>) :
     RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
 

@@ -1,6 +1,7 @@
 package com.example.moviesapp.data
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.example.moviesapp.pojo.Movie
 import com.example.moviesapp.pojo.MovieResponse
 import com.example.moviesapp.ui.MoviesCallBack
@@ -9,14 +10,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 object MovieRepository {
+    val movies: MutableLiveData<List<Movie>> = MutableLiveData()
     val apiInterface: ApiInterface = MovieClient.getRetrofit().create(ApiInterface::class.java)
     private lateinit var moviesList: List<Movie>
 // in memory cache
-    fun showingData(callBack: MoviesCallBack, sortBy: String = "popularity.desc"){
-        if(this::moviesList.isInitialized && moviesList.isNotEmpty()){
-            callBack.onMovieLoaded(moviesList)
-            return
-        }
+    fun showingData(sortBy: String = "popularity.desc"){
+
         apiInterface.getMovies("eb1523f9e5287ce93da5dcfda24bcbc7",sortBy).enqueue(object :
             Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
@@ -25,7 +24,8 @@ object MovieRepository {
 
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
                 if (response.isSuccessful) {
-                    callBack.onMovieLoaded(response.body()!!.results)
+                    moviesList = response.body()!!.results
+                    movies.postValue(moviesList)
                 }else{
                     Log.e("error","can't bind data")}
             }
