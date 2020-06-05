@@ -2,28 +2,31 @@ package com.example.moviesapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviesapp.R
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_movie_details.*
-import kotlinx.android.synthetic.main.recycler_item.*
+import com.example.moviesapp.data.MovieRepository
+import com.example.moviesapp.pojo.Movie
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MovieDetailsActivity : AppCompatActivity() {
+class MovieDetailsActivity : AppCompatActivity(){
+
+    private lateinit var moviesList: List<Movie>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
+        println("CLICKED")
+         var currentPosition = intent.getIntExtra("currentPosition",0)
+        MovieRepository.movies.observe(this, Observer {
+            positionCallback(it)
+        })
+        MovieRepository.showingData("popularity.desc")
+    }
 
-        movie_title.text = intent.getStringExtra("MOVIE_TITLE")
-        val movieImage = intent.getStringExtra("MOVIE_IMAGE")
-        Picasso.get().load(movieImage).into(movie_image)
-        movie_rate_tv.text = intent.getStringExtra("MOVIE_RATE")
-        movie_overview_tv.text = intent.getStringExtra("MOVIE_OVER_VIEW")
-
-
-
-
-
+    fun positionCallback(moviesList: List<Movie>) {
+        recycler_view.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        recycler_view.adapter = MovieDetailsAdapter(moviesList)
     }
 }
+
