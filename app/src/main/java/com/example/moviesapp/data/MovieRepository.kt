@@ -16,7 +16,7 @@ object MovieRepository {
 // in memory cache
     fun showingData(sortBy: String = "popularity.desc"){
 
-        apiInterface.getMovies("eb1523f9e5287ce93da5dcfda24bcbc7",sortBy).enqueue(object :
+        apiInterface.getMovies("YOUR API KEY",sortBy).enqueue(object :
             Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
                 Log.e("this is On Failure", t.message.toString())
